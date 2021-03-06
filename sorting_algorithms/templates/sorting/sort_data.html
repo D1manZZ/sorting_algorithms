@@ -1,0 +1,16 @@
+{% extends 'sorting/sort_nums.html' %}
+{% block content %}
+<div class="wrapper" style="width: 100%; height: 100vh;">
+{% for s in sort %}
+<div class="card" style="width: 18rem; margin-top: 30px;">
+  <div class="card-body">
+    <h5 class="card-title">{{ s.algorithm }}</h5>
+    <p class="card-text">{{ s.start_time }}</p>
+    <p class="card-text">{{ s.sorting_duration }} секунд</p>
+    <p class="card-text">{{ s.sort_result }}</p>
+  </div>
+</div>
+{% endfor %}
+  <a href="{% url 'sort_nums' %}" class="btn btn-primary" style="margin-top: 30px;">Добавить</a>
+</div>
+{% endblock %}

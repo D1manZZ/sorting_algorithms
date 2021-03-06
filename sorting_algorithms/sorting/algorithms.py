@@ -1,17 +1,35 @@
 from abc import ABC, abstractmethod
+import time
 
 
-class Method(ABC):
+# def sort_duration(sort_algorithm):
+#     start_time = time.time()
+#     sorted_nums = sort_algorithm()
+#     end_time = time.time()
+#     total_time = end_time - start_time
+#     return [total_time, sorted_nums]
 
-    @abstractmethod
-    def make_sort(self, nums):
-        pass
+
+def sort_duration(sort_algorithms):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        sorted_nums = sort_algorithms(*args, **kwargs)
+        end = time.time()
+        total_time = end - start_time
+        return [total_time, sorted_nums]
+    return wrapper
 
 
-class BubbleSort(Method):
+# class Method(ABC):
+#
+#     @abstractmethod
+#     def __make_sort(self, nums):
+#         pass
 
-    @abstractmethod
-    def make_sort(self, nums):
+
+class BubbleSort():
+    @sort_duration
+    def make_sort(self, pf, nums):
         swapped = True
         while swapped:
             swapped = False
@@ -22,10 +40,9 @@ class BubbleSort(Method):
         return nums
 
 
-class InsertionSort(Method):
-
-    @abstractmethod
-    def insertion_sort(self, nums):
+class InsertionSort():
+    @sort_duration
+    def make_sort(self, pf, nums):
         for i in range(1, len(nums)):
             item_to_insert = nums[i]
             j = i - 1
@@ -36,44 +53,44 @@ class InsertionSort(Method):
         return nums
 
 
-def merge(left_list, right_list):
-    
-    sorted_list = []
-    left_list_index = right_list_index = 0
-    left_list_length, right_list_length = len(left_list), len(right_list)
-    for _ in range(left_list_length + right_list_length):
-        if left_list_index < left_list_length and right_list_index < right_list_length:
-            if left_list[left_list_index] <= right_list[right_list_index]:
-                sorted_list.append(left_list[left_list_index])
-                left_list_index += 1
-            else:
-                sorted_list.append(right_list[right_list_index])
-                right_list_index += 1
-        elif left_list_index == left_list_length:
-            sorted_list.append(right_list[right_list_index])
-            right_list_index += 1
-        elif right_list_index == right_list_length:
-            sorted_list.append(left_list[left_list_index])
-            left_list_index += 1
-    return sorted_list
+class MergeSort():
+    @sort_duration
+    def make_sort(self, pf, nums):
+        if len(nums)>1:
+            mid = len(nums)//2
+            lefthalf = nums[:mid]
+            righthalf = nums[mid:]
+
+            self.make_sort(pf, lefthalf)
+            self.make_sort(pf, righthalf)
+
+            i=0
+            j=0
+            k=0
+            while i<len(lefthalf) and j < len(righthalf):
+                if lefthalf[i] < righthalf[j]:
+                    nums[k] = lefthalf[i]
+                    i=i+1
+                else:
+                    nums[k] = righthalf[j]
+                    j=j+1
+                k=k+1
+
+            while i<len(lefthalf):
+                nums[k]=lefthalf[i]
+                i=i+1
+                k=k+1
+
+            while j < len(righthalf):
+                nums[k] = righthalf[j]
+                j = j + 1
+                k = k + 1
+        return nums
 
 
-class MergeSort(Method):
-
-    @abstractmethod
-    def make_sort(self, nums):
-        if len(nums) <= 1:
-            return nums
-        mid = len(nums) // 2
-        left_list = self.make_sort(nums[:mid])
-        right_list = self.make_sort(nums[mid:])
-        return merge(left_list, right_list)
-
-
-class SelectionSort(Method):
-
-    @abstractmethod
-    def make_sort(self, nums):
+class SelectionSort():
+    @sort_duration
+    def make_sort(self, pf, nums):
         for i in range(len(nums)):
             lowest_value_index = i
             for j in range(i + 1, len(nums)):
