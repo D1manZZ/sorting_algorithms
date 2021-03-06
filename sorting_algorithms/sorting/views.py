@@ -1,12 +1,8 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 from .forms import AddSort
 from .models import AddSorting
-import time
 from .algorithms import *
-import os
 
 
 class SortNums(CreateView):
@@ -29,7 +25,7 @@ class SortNums(CreateView):
         file = open(form.instance.input_file.path, 'r')
         nums = ",".join(file.readlines())
         nums = list(map(lambda x: int(x), filter(lambda x: x != '\n', nums.split(','))))
-        result = sort_class.make_sort(self, nums)
+        result = sort_class._SortNums__make_sort(self, nums)
         s.sorting_duration = result[0]
         s.sort_result = result[1]
         s.save()

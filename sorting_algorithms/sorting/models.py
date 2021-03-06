@@ -33,6 +33,3 @@ class AddSorting(models.Model):
     class Meta:
         verbose_name = 'Успешная сортировка'
         verbose_name_plural = 'Успешные сортировки'
-
-
-

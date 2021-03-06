@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SortingAlgorithms, AddSorting
+from .models import SortingAlgorithms, AddSorting, SortingForm
 
 
 class AddSortingAdmin(admin.ModelAdmin):

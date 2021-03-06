@@ -2,15 +2,8 @@ from abc import ABC, abstractmethod
 import time
 
 
-# def sort_duration(sort_algorithm):
-#     start_time = time.time()
-#     sorted_nums = sort_algorithm()
-#     end_time = time.time()
-#     total_time = end_time - start_time
-#     return [total_time, sorted_nums]
-
-
 def sort_duration(sort_algorithms):
+
     def wrapper(*args, **kwargs):
         start_time = time.time()
         sorted_nums = sort_algorithms(*args, **kwargs)
@@ -20,16 +13,17 @@ def sort_duration(sort_algorithms):
     return wrapper
 
 
-# class Method(ABC):
-#
-#     @abstractmethod
-#     def __make_sort(self, nums):
-#         pass
+class SortNums(ABC):
+
+    @abstractmethod
+    def __make_sort(self, nums):
+        pass
 
 
-class BubbleSort():
+class BubbleSort(SortNums):
+
     @sort_duration
-    def make_sort(self, pf, nums):
+    def _SortNums__make_sort(self, pf, nums):
         swapped = True
         while swapped:
             swapped = False
@@ -40,9 +34,10 @@ class BubbleSort():
         return nums
 
 
-class InsertionSort():
+class InsertionSort(SortNums):
+
     @sort_duration
-    def make_sort(self, pf, nums):
+    def _SortNums__make_sort(self, pf, nums):
         for i in range(1, len(nums)):
             item_to_insert = nums[i]
             j = i - 1
@@ -53,33 +48,32 @@ class InsertionSort():
         return nums
 
 
-class MergeSort():
+class MergeSort(SortNums):
+
     @sort_duration
-    def make_sort(self, pf, nums):
-        if len(nums)>1:
-            mid = len(nums)//2
+    def _SortNums__make_sort(self, pf, nums):
+        if len(nums) > 1:
+            mid = len(nums) // 2
             lefthalf = nums[:mid]
             righthalf = nums[mid:]
-
-            self.make_sort(pf, lefthalf)
-            self.make_sort(pf, righthalf)
-
-            i=0
-            j=0
-            k=0
-            while i<len(lefthalf) and j < len(righthalf):
+            self._SortNums__make_sort(pf, lefthalf)
+            self._SortNums__make_sort(pf, righthalf)
+            i = 0
+            j = 0
+            k = 0
+            while i < len(lefthalf) and j < len(righthalf):
                 if lefthalf[i] < righthalf[j]:
                     nums[k] = lefthalf[i]
-                    i=i+1
+                    i = i + 1
                 else:
                     nums[k] = righthalf[j]
-                    j=j+1
-                k=k+1
+                    j = j + 1
+                k = k + 1
 
-            while i<len(lefthalf):
-                nums[k]=lefthalf[i]
-                i=i+1
-                k=k+1
+            while i < len(lefthalf):
+                nums[k] = lefthalf[i]
+                i = i + 1
+                k = k + 1
 
             while j < len(righthalf):
                 nums[k] = righthalf[j]
@@ -88,9 +82,10 @@ class MergeSort():
         return nums
 
 
-class SelectionSort():
+class SelectionSort(SortNums):
+
     @sort_duration
-    def make_sort(self, pf, nums):
+    def _SortNums__make_sort(self, pf, nums):
         for i in range(len(nums)):
             lowest_value_index = i
             for j in range(i + 1, len(nums)):
